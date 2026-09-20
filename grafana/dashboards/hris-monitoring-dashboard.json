@@ -704,7 +704,7 @@
     ]
   },
   "timezone": "browser",
-  "title": "HRIS Gold Chick - Centralized Log Monitoring",
-  "uid": "hris-goldchick-logs",
+  "title": "HRIS Applications - Centralized Log Monitoring",
+  "uid": "hris-apps-logs",
   "version": 1
 }
