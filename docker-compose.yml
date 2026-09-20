@@ -1,0 +1,48 @@
+services:
+  # ============================================================================
+  # Grafana Loki - Log Aggregation & Storage Engine
+  # ============================================================================
+  loki:
+    image: grafana/loki:3.1.0
+    container_name: logging_loki
+    restart: unless-stopped
+    ports:
+      - "${LOKI_PORT:-3100}:3100"
+    volumes:
+      - ./loki/loki-config.yaml:/etc/loki/local-config.yaml:ro
+      - loki_data:/loki
+    command: -config.file=/etc/loki/local-config.yaml
+    networks:
+      - logging_net
+
+  # ============================================================================
+  # Grafana - Visualization & Live Log Dashboards
+  # ============================================================================
+  grafana:
+    image: grafana/grafana:11.2.0
+    container_name: logging_grafana
+    restart: unless-stopped
+    ports:
+      - "${GRAFANA_PORT:-3000}:3000"
+    environment:
+      - GF_SECURITY_ADMIN_USER=${GRAFANA_ADMIN_USER:-admin}
+      - GF_SECURITY_ADMIN_PASSWORD=${GRAFANA_ADMIN_PASSWORD:-admin}
+      - GF_USERS_ALLOW_SIGN_UP=false
+      - GF_LOG_LEVEL=warn
+    volumes:
+      - grafana_data:/var/lib/grafana
+      - ./grafana/provisioning/datasources:/etc/grafana/provisioning/datasources:ro
+      - ./grafana/provisioning/dashboards:/etc/grafana/provisioning/dashboards:ro
+      - ./grafana/dashboards:/var/lib/grafana/dashboards:ro
+    depends_on:
+      - loki
+    networks:
+      - logging_net
+
+volumes:
+  loki_data:
+  grafana_data:
+
+networks:
+  logging_net:
+    driver: bridge

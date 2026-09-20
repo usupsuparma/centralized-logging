@@ -1,0 +1,19 @@
+# Byte-compiled / optimized / DLL files
+__pycache__/
+*.py[cod]
+
+# Log and data directories
+*.log
+data/
+loki_data/
+grafana_data/
+
+# Environment files
+.env
+
+# OS / Editor metadata
+.DS_Store
+Thumbs.db
+.idea/
+.vscode/
+*.swp
