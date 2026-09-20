@@ -3,7 +3,7 @@ apiVersion: 1
 providers:
   - name: 'HRIS & Centralized Dashboards'
     orgId: 1
-    folder: 'Gold Chick Applications'
+    folder: 'Monitoring Applications'
     type: file
     disableDeletion: false
     editable: true
